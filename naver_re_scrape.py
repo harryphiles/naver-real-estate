@@ -1,4 +1,4 @@
-# v0.4
+# v0.5
 
 from operator import itemgetter
 import requests
@@ -22,7 +22,6 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
         'Referer': 'https://m.land.naver.com/'
     }
 
-    logging.basicConfig(level=logging.INFO)
     page = 0
 
     while True:
