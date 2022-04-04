@@ -120,12 +120,13 @@ def search_list(x):
         get_list()                      # 보기: 모든 매물
 
 ### indivisual search ###
-def search_individual():
-    get_info('B1', 40, 130, 111059)
+def search_individual(x):
+    get_info('B1', 40, 130, x)
     get_list()
 
 # search_min(watch_list_1)
-search_list(watch_list_1)
+# search_list(watch_list_1)
+search_individual(120682)
 
 '''
 # [120682, 40],  # 광교_효성해링턴타워
