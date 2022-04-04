@@ -103,6 +103,11 @@ watch_list_4 = [
     [107999, 43],  # 광교_더샵레이크파크
     [105468, 40]  # 광교_힐스테이트레이크
 ]
+watch_list_5 = [  # southern 광교
+    [120316, 40],  # 광교(남)_더샵광교레이크시티
+    [110644, 40],  # 광교(남)_더샵
+    [110643, 40]  # 광교(남)_아이파크
+]
 
 ### watch list search ###
 def search_min(x):
@@ -120,7 +125,7 @@ def search_individual():
     get_info('B1', 40, 130, 111059)
     get_list()
 
-search_min(watch_list_1)
+search_min(watch_list_4)
 #search_list(watch_list_1)
 
 '''
