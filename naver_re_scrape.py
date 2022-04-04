@@ -107,6 +107,11 @@ watch_list_5 = [  # southern 광교
     [110644, 40],  # 광교(남)_더샵
     [110643, 40]  # 광교(남)_아이파크
 ]
+watch_list_6 = [  # 정자동
+    [3014, 40],  # 느티마을공무원3단지 # 1994
+    [2618, 40],  # 느티마을공무원4단지 # 1994
+    [2645, 40]  # 상록우성 #1995
+]
 
 ### watch list search ###
 def search_min(x):
@@ -124,9 +129,9 @@ def search_individual(x):
     get_info('B1', 40, 130, x)
     get_list()
 
-# search_min(watch_list_1)
-# search_list(watch_list_1)
-search_individual(120682)
+search_min(watch_list_6)
+# search_list(watch_list_5)
+# search_individual(103994)
 
 '''
 # [120682, 40],  # 광교_효성해링턴타워
