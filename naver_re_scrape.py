@@ -188,10 +188,10 @@ def search_individual(x):
     get_list()
 
 ### search min send text test
-def s(x):
-    for i in x:                         # change number to show results of different lists
-        get_info('B1', i[1], 85, i[0])  # 기본
-        get_min() 
+# def s(x):
+#     for i in x:                         # change number to show results of different lists
+#         get_info('B1', i[1], 85, i[0])  # 기본
+#         get_min() 
 
 get_info('B1', 40, 130, 120682)
 title = list[0]
