@@ -190,8 +190,8 @@ def search_individual(x):
     get_info('B1', 40, 130, x)
     get_list()
 
-def search_min_test(x):
-    for i in x:                         # change number to show results of different lists
+def search_min_test(watch_list, prc_max):
+    for i in watch_list:                         # change number to show results of different lists
         get_info('B1', i[1], 85, i[0])  # 기본
         get_list_min()
     for i in list_min:
@@ -199,15 +199,16 @@ def search_min_test(x):
             prc = int('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
         except:
             prc = int('{:.1}0000'.format(i[1].split()[0]))
-        if prc < 41000:
+        if prc <= prc_max:
             list_min_result.append(i)
     x = ''
     for i in range(len(list_min_result)):
         x += list_min_result[i][0] + " " + list_min_result[i][1] + " " + list_min_result[i][2] + "\n"
-    print(x)
-    sendMsgToMe(x)
+    if len(list_min_result) > 0:
+        print(x)
+        sendMsgToMe(x)
 
-search_min_test(watch_list_1)
+search_min_test(watch_list_8, 35000)
 
 # get_info('B1', 40, 130, 107999)
 # get_min()
