@@ -6,8 +6,10 @@ import json
 import logging
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #basic url
+KAKAO_TOKEN = "PwGTvue3aeqF3WY894pKvrYCEc8JFwlcsCgJGQo9dNoAAAF_-FQqYQ"
 
 list = []
+list_min = []
 
 def get_info(tradTpCd, spc_min, spc_max, hscpNo):
     param = {
@@ -33,7 +35,7 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
             logging.error('status code: %d' % r.status_code)
             break
 
-        print_url = f'https://m.land.naver.com/complex/info/{hscpNo}?tradTpCd={tradTpCd}&ptpNo=&bildNo=&articleListYN=Y'
+        #print_url = f'https://m.land.naver.com/complex/info/{hscpNo}?tradTpCd={tradTpCd}&ptpNo=&bildNo=&articleListYN=Y'
 
         load_json = json.loads(r.text)
         result = load_json['result']
@@ -72,12 +74,40 @@ def get_min(): #--> new function to get min
     for i in spc_s:
         print(i, s[spc.index(i)][2])
 
+def get_min_list(): #--> new function to get min
+    #list_min.clear()
+    s = sorted(list, key=itemgetter(2))
+    spc = []
+    for i in s:
+        spc.append(i[0])
+    spc_s = sorted(set(spc))
+    for i in spc_s:
+        list_min.append([i, s[spc.index(i)][2]])
+
 def get_list(): #--> new function to get list
     for i in list:
         if i[1] != i[2]:
             print('{} | {} | {} | {} | {}'.format(i[0], i[1], i[3], i[2], i[4]))
         else:
             print('{} | {} | {} |           | {}'.format(i[0], i[1], i[3], i[4]))
+
+def sendMsgToMe(input): #--> new fn to send msg to kakaotalk
+    url = "https://kapi.kakao.com/v2/api/talk/memo/default/send" #나에게 보내기 주소
+
+    header = {"Authorization": 'Bearer ' + KAKAO_TOKEN}
+
+    post = {
+        "object_type": "text",
+        "text": input,
+        "link": {
+            "web_url": "https://developers.kakao.com",
+            "mobile_web_url": "https://developers.kakao.com"
+        }
+    }
+
+    data = {"template_object": json.dumps(post)}
+    
+    return requests.post(url, headers=header, data=data)
 
 ### watch list
 watch_list_1 = [
@@ -155,7 +185,27 @@ def search_individual(x):
     get_info('B1', 40, 130, x)
     get_list()
 
-search_min(watch_list_7)
+### search min send text test
+def s(x):
+    for i in x:                         # change number to show results of different lists
+        get_info('B1', i[1], 85, i[0])  # 기본
+        get_min() 
+
+get_info('B1', 40, 130, 120316)
+get_min_list()
+print(list_min)
+#x = f"{list_min[0][0]} {list_min[0][1]}"
+x = ''
+for i in range(len(list_min)):
+    if i == 0:
+        x += "title" + "\n"
+        x += list_min[i][0] + " " + list_min[i][1] + "\n"
+    else:
+        x += list_min[i][0] + " " + list_min[i][1] + "\n"
+sendMsgToMe(x)
+
+
+# search_min(watch_list_7)
 # search_list(watch_list_5)
 # search_individual(103994)
 
