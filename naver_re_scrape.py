@@ -10,7 +10,9 @@ KAKAO_TOKEN = "PwGTvue3aeqF3WY894pKvrYCEc8JFwlcsCgJGQo9dNoAAAF_-FQqYQ"
 
 list = []
 list_min = []
+list_min_result = []
 
+### core functions
 def get_info(tradTpCd, spc_min, spc_max, hscpNo):
     param = {
         'tradTpCd': tradTpCd, # A1: 매매, B1: 전세, B2: 월세
@@ -44,10 +46,11 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
         elif param['page'] == 1:
             #print('{}'.format(result['list'][0]['atclNm'])) #, print_url)
             list.clear()
-            list.append(result['list'][0]['atclNm'])
+            #list.append(result['list'][0]['atclNm'])
   
         for item in result['list']:
             if float(item['spc2']) >= spc_min and float(item['spc2']) < spc_max:
+                atclNm = item['atclNm']
                 spc2 = '{:.4}'.format(item['spc2'])
                 prc = '{:8}'.format(item['prcInfo'])
                 prc_min = '{:8}'.format(item['sameAddrMinPrc'])
@@ -59,39 +62,39 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
                     flrInfo = '{:>5}'.format(item['flrInfo'])
                 else:
                     flrInfo = '{:>4}'.format(item['flrInfo'])
-                x = [spc2, prc, prc_min, flrInfo, desc]
+                x = [atclNm, spc2, prc, prc_min, flrInfo, desc]
                 list.append(x)     
 
         if result['moreDataYn'] == 'N':
             break
 
 def get_min(): #--> new function to get min
-    s = sorted(list, key=itemgetter(2))
+    s = sorted(list, key=itemgetter(3))
     spc = []
     for i in s:
-        spc.append(i[0])
+        spc.append(i[1])
     spc_s = sorted(set(spc))
     for i in spc_s:
-        print(i, s[spc.index(i)][2])
+        print(i, s[spc.index(i)][3])
 
-def get_min_list(): #--> new function to get min
+def get_list_min(): #--> new function to get min
     #list_min.clear()
     #list_min.append(list[0])
-    list.remove(list[0])
-    s = sorted(list, key=itemgetter(2))
+    #list.remove(list[0])
+    s = sorted(list, key=itemgetter(3))
     spc = []
     for i in s:
-        spc.append(i[0])
+        spc.append(i[1])
     spc_s = sorted(set(spc))
     for i in spc_s:
-        list_min.append([i, s[spc.index(i)][2]])
+        list_min.append([i, s[spc.index(i)][3], s[spc.index(i)][0]])
 
 def get_list(): #--> new function to get list
     for i in list:
-        if i[1] != i[2]:
-            print('{} | {} | {} | {} | {}'.format(i[0], i[1], i[3], i[2], i[4]))
+        if i[2] != i[3]:
+            print('{} | {} | {} | {} | {}'.format(i[1], i[3], i[2], i[4], i[5]))
         else:
-            print('{} | {} | {} |           | {}'.format(i[0], i[1], i[3], i[4]))
+            print('{} | {} | {} |           | {}'.format(i[1], i[2], i[4], i[5]))
 
 def sendMsgToMe(input): #--> new fn to send msg to kakaotalk
     url = "https://kapi.kakao.com/v2/api/talk/memo/default/send" #나에게 보내기 주소
@@ -175,7 +178,7 @@ watch_list_8 = [  # 동탄역 서쪽
 def search_min(x):
     for i in x:                         # change number to show results of different lists
         get_info('B1', i[1], 85, i[0])  # 기본
-        get_min()                       # 보기: 각 평수당 최소 보증금만
+        get_min()
 
 def search_list(x):
     for i in x:                         # change number to show results of different lists
@@ -187,24 +190,38 @@ def search_individual(x):
     get_info('B1', 40, 130, x)
     get_list()
 
-### search min send text test
-# def s(x):
-#     for i in x:                         # change number to show results of different lists
-#         get_info('B1', i[1], 85, i[0])  # 기본
-#         get_min() 
+def search_min_test(x):
+    for i in x:                         # change number to show results of different lists
+        get_info('B1', i[1], 85, i[0])  # 기본
+        get_list_min()
+    for i in list_min:
+        try:
+            prc = int('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+        except:
+            prc = int('{:.1}0000'.format(i[1].split()[0]))
+        if prc < 41000:
+            list_min_result.append(i)
+    x = ''
+    for i in range(len(list_min_result)):
+        x += list_min_result[i][0] + " " + list_min_result[i][1] + " " + list_min_result[i][2] + "\n"
+    print(x)
+    sendMsgToMe(x)
 
-get_info('B1', 40, 130, 120682)
-title = list[0]
-get_min_list()
-print(list_min)
-x = ''
-for i in range(len(list_min)):
-    if i == 0:
-        x += title + "\n"
-        x += list_min[i][0] + " " + list_min[i][1] + "\n"
-    else:
-        x += list_min[i][0] + " " + list_min[i][1] + "\n"
-sendMsgToMe(x)
+search_min_test(watch_list_1)
+
+# get_info('B1', 40, 130, 107999)
+# get_min()
+# title = list[0]
+# get_min_list()
+# print(list_min)
+# x = ''
+# for i in range(len(list_min)):
+#     if i == 0:
+#         x += title + "\n"
+#         x += list_min[i][0] + " " + list_min[i][1] + "\n"
+#     else:
+#         x += list_min[i][0] + " " + list_min[i][1] + "\n"
+# sendMsgToMe(x)
 
 
 # search_min(watch_list_7)
