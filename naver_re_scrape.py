@@ -20,7 +20,8 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
     }
 
     header = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36',
+        #'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Linux; Android 8.0.0; SM-G960F Build/R16NW) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.84 Mobile Safari/537.36',
         'Referer': 'https://m.land.naver.com/'
     }
 
@@ -35,16 +36,15 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
             logging.error('status code: %d' % r.status_code)
             break
 
-        #print_url = f'https://m.land.naver.com/complex/info/{hscpNo}?tradTpCd={tradTpCd}&ptpNo=&bildNo=&articleListYN=Y'
-
         load_json = json.loads(r.text)
         result = load_json['result']
         if result is None:
             logging.error('no result')
             break
         elif param['page'] == 1:
-            print('{}'.format(result['list'][0]['atclNm'])) #, print_url)
+            #print('{}'.format(result['list'][0]['atclNm'])) #, print_url)
             list.clear()
+            list.append(result['list'][0]['atclNm'])
   
         for item in result['list']:
             if float(item['spc2']) >= spc_min and float(item['spc2']) < spc_max:
@@ -76,6 +76,8 @@ def get_min(): #--> new function to get min
 
 def get_min_list(): #--> new function to get min
     #list_min.clear()
+    #list_min.append(list[0])
+    list.remove(list[0])
     s = sorted(list, key=itemgetter(2))
     spc = []
     for i in s:
@@ -191,14 +193,14 @@ def s(x):
         get_info('B1', i[1], 85, i[0])  # 기본
         get_min() 
 
-get_info('B1', 40, 130, 120316)
+get_info('B1', 40, 130, 120682)
+title = list[0]
 get_min_list()
 print(list_min)
-#x = f"{list_min[0][0]} {list_min[0][1]}"
 x = ''
 for i in range(len(list_min)):
     if i == 0:
-        x += "title" + "\n"
+        x += title + "\n"
         x += list_min[i][0] + " " + list_min[i][1] + "\n"
     else:
         x += list_min[i][0] + " " + list_min[i][1] + "\n"
