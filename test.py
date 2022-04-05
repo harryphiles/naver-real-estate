@@ -1,11 +1,20 @@
-# from concurrent.futures import process
+import requests
+import json
 
+url = "https://kapi.kakao.com/v1/api/talk/friends"
+
+KAKAO_TOKEN = 'YmJbNK5eu1fEl8KHpPBTrKwocvHgrL9AaqkQ1wo9dJkAAAF_-h7YOA'
+
+header = {"Authorization": "Bearer " + KAKAO_TOKEN}
+
+r = requests.get(url, headers=header).text
+print(r)
 
 # list = [['84.7', '4억 5,000', '광교지웰홈스'], ['84.8', '5억      ', '광교지웰홈스'], ['53.7', '4억 8,000', '힐스테이트광교'], ['77.5', '8억      ', '힐스테이트광교'], ['46.9', '3억 7,000', '에듀하임1309'], ['62.9', '4억 3,000', '에듀하임1309'], ['53.3', '4억      ', '힐스테이트광교중앙역'], ['58.6', '4억 7,000', '힐스테이트광교중앙역'], ['59.1', '4억 6,000', '힐스테이트광교중앙역'], ['59.2', '5억      ', '힐스테이트광교중앙역'], ['59.3', '4억 1,700', '힐스테이트광교중앙역'], ['59.4', '4억      ', '힐스테이트광교중앙역'], ['83.4', '7억 3,000', '힐스테이트광교중앙역']]
 # list2 = []
 # # for i in list:
 # #     try:
-# #         print('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+# #         print('{:.1}{:.1}{}'.format(i[1].split()[d0], i[1].split()[1], i[1].split(",")[1]))
 # #     except:
 # #         print('{:.1}0000'.format(i[1].split()[0]))
 

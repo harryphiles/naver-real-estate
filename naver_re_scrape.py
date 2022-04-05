@@ -6,7 +6,7 @@ import json
 import logging
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #basic url
-KAKAO_TOKEN = "O9M2OnnQmbyujsd6I5V6MGQW1muihGFQwnG_fQo9dVoAAAF_-eMFsQ"
+KAKAO_TOKEN = "FG7EmVA_DjmsSkUqAsPtdBiaAf7mIgwGuykV3QorDNQAAAF_-i_gFw"
 
 list = []
 list_min = []
@@ -119,6 +119,27 @@ def sendMsgToMe(input): #--> new fn to send msg to kakaotalk
     else:
         print(str(response.json()))
 
+def sendMsgToHer(input): #--> new fn to send msg to kakaotalk
+    url = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send" #--> 친구에게 보내기 주소
+    uuid = ["EyEXLxwlFiQQPA01BjMFNQI0BCgfLRoqGixh"]
+    uuids = {"receiver_uuids": json.dumps(uuid)}
+    header = {"Authorization": 'Bearer ' + KAKAO_TOKEN}
+
+    post = {
+        "object_type": "text",
+        "text": input,
+        "link": {
+            "web_url": "https://developers.kakao.com",
+            "mobile_web_url": "https://developers.kakao.com"
+        },
+    }
+
+    data = {"template_object": json.dumps(post)}
+    uuids.update(data)
+
+    response = requests.post(url, headers=header, data=uuids)
+    print(str(response.json()))
+
 ### watch list
 watch_list_1 = [
     [111059, 40],  # 광교지웰홈스
@@ -212,8 +233,10 @@ def search_min_test(watch_list, prc_max):
     if len(list_min_result) > 0:
         print(x)
         sendMsgToMe(x)
+        sendMsgToHer(x)
 
 search_min_test(watch_list_8, 35000)
+#sendMsgToHer('testing')
 
 # get_info('B1', 40, 130, 107999)
 # get_min()
