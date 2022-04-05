@@ -6,7 +6,7 @@ import json
 import logging
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #basic url
-KAKAO_TOKEN = "PwGTvue3aeqF3WY894pKvrYCEc8JFwlcsCgJGQo9dNoAAAF_-FQqYQ"
+KAKAO_TOKEN = "O9M2OnnQmbyujsd6I5V6MGQW1muihGFQwnG_fQo9dVoAAAF_-eMFsQ"
 
 list = []
 list_min = []
@@ -112,7 +112,12 @@ def sendMsgToMe(input): #--> new fn to send msg to kakaotalk
 
     data = {"template_object": json.dumps(post)}
     
-    return requests.post(url, headers=header, data=data)
+    response = requests.post(url, headers=header, data=data)
+
+    if response.json().get('result_code') == 0:
+        print("msg sent successful.")
+    else:
+        print(str(response.json()))
 
 ### watch list
 watch_list_1 = [
