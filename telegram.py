@@ -25,5 +25,5 @@ def getTelegramMsg():
     for i in data:
         print('{:2} {} {} {}'.format(i['message']['message_id'], i['message']['from']['id'], i['message']['from']['username'], i['message']['text']))
 
-getTelegramMsg()
+# getTelegramMsg()
 # sendTelegramMsg('2022415076', "King받네") #"1726140050" # 2022415076

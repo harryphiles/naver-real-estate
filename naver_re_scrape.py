@@ -130,47 +130,7 @@ def search_min_test(watch_list, prc_max):
     if len(list_min_result) > 0:
         print(x)
         sendTelegramMsg("1726140050", x) # 1726140050 # 2022415076
-        sendTelegramMsg("2022415076", x) 
+        #sendTelegramMsg("2022415076", x) 
 
 
 search_min_test(watch_list_8, 35000)
-#sendMsgToHer('testing')
-
-# get_info('B1', 40, 130, 107999)
-# get_min()
-# title = list[0]
-# get_min_list()
-# print(list_min)
-# x = ''
-# for i in range(len(list_min)):
-#     if i == 0:
-#         x += title + "\n"
-#         x += list_min[i][0] + " " + list_min[i][1] + "\n"
-#     else:
-#         x += list_min[i][0] + " " + list_min[i][1] + "\n"
-# sendMsgToMe(x)
-
-
-# search_min(watch_list_7)
-# search_list(watch_list_5)
-# search_individual(103994)
-
-'''
-# [120682, 40],  # 광교_효성해링턴타워
-# [120134, 40],  # 광교_효성해링턴타워레이크
-# [105468, 40],  # 광교_힐스테이트레이크
-# [107999, 43],  # 광교_더샵레이크파크
-# [109829, 43],  # 광교_힐스테이트광교
-# [114777, 50],  # 힐스테이트광교중앙역
-# [103994, 50],  # 에듀하임
-# [114593, 40],  # 광교_sk뷰레이크타워
-# [111001, 40],  # 광교_중흥S-클래스
-# [116449, 40],  # 광교_포레나광교
-# [110643, 40],  # 광교(남)_아이파크
-# [120316, 40],  # 광교(남)_더샵광교레이크시티
-# [110644, 40],  # 광교(남)_더샵
-# [111059, 40],  # 광교지웰홈스
-# [102530, 40],  # 수지_푸르지오월드마크(주상복합)
-# [10244, 40],   # 정자_두산위브파빌리온
-# [9896, 40]   # 구성_성호샤인힐즈
-'''
