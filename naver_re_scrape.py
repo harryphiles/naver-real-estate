@@ -4,9 +4,10 @@ from operator import itemgetter
 import requests
 import json
 import logging
+from kakao import sendMsgToMe
+import watch_list
 
-url = 'https://m.land.naver.com/complex/getComplexArticleList' #basic url
-KAKAO_TOKEN = "FG7EmVA_DjmsSkUqAsPtdBiaAf7mIgwGuykV3QorDNQAAAF_-i_gFw"
+url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
 list = []
 list_min = []
@@ -96,109 +97,65 @@ def get_list(): #--> new function to get list
         else:
             print('{} | {} | {} |           | {}'.format(i[1], i[2], i[4], i[5]))
 
-def sendMsgToMe(input): #--> new fn to send msg to kakaotalk
-    url = "https://kapi.kakao.com/v2/api/talk/memo/default/send" #나에게 보내기 주소
-
-    header = {"Authorization": 'Bearer ' + KAKAO_TOKEN}
-
-    post = {
-        "object_type": "text",
-        "text": input,
-        "link": {
-            "web_url": "https://developers.kakao.com",
-            "mobile_web_url": "https://developers.kakao.com"
-        }
-    }
-
-    data = {"template_object": json.dumps(post)}
-    
-    response = requests.post(url, headers=header, data=data)
-
-    if response.json().get('result_code') == 0:
-        print("msg sent successful.")
-    else:
-        print(str(response.json()))
-
-def sendMsgToHer(input): #--> new fn to send msg to kakaotalk
-    url = "https://kapi.kakao.com/v1/api/talk/friends/message/default/send" #--> 친구에게 보내기 주소
-    uuid = ["EyEXLxwlFiQQPA01BjMFNQI0BCgfLRoqGixh"]
-    uuids = {"receiver_uuids": json.dumps(uuid)}
-    header = {"Authorization": 'Bearer ' + KAKAO_TOKEN}
-
-    post = {
-        "object_type": "text",
-        "text": input,
-        "link": {
-            "web_url": "https://developers.kakao.com",
-            "mobile_web_url": "https://developers.kakao.com"
-        },
-    }
-
-    data = {"template_object": json.dumps(post)}
-    uuids.update(data)
-
-    response = requests.post(url, headers=header, data=uuids)
-    print(str(response.json()))
-
 ### watch list
-watch_list_1 = [
-    [111059, 40],  # 광교지웰홈스
-    [109829, 43],  # 광교_힐스테이트광교
-    [103994, 45],  # 에듀하임
-    [114777, 50]  # 힐스테이트광교중앙역
-]
-watch_list_2 = [
-    [102530, 40],  # 수지_푸르지오월드마크(주상복합)
-    [10244, 40],   # 정자_두산위브파빌리온
-    [9896, 40]   # 구성_성호샤인힐즈
-]
-watch_list_3 = [
-    [114593, 40],  # 광교_sk뷰레이크타워
-    [111001, 40],  # 광교_중흥S-클래스
-    [116449, 40]  # 광교_포레나광교
-]
-watch_list_4 = [
-    [120682, 40],  # 광교_효성해링턴타워
-    [120134, 40],  # 광교_효성해링턴타워레이크
-    [107999, 43],  # 광교_더샵레이크파크
-    [105468, 40]  # 광교_힐스테이트레이크
-]
-watch_list_5 = [  # southern 광교
-    [120316, 40],  # 광교(남)_더샵광교레이크시티
-    [110644, 40],  # 광교(남)_더샵
-    [110643, 40]  # 광교(남)_아이파크
-]
-watch_list_6 = [  # 정자동
-    [3014, 40],  # 느티마을공무원3단지 # 1994
-    [2618, 40],  # 느티마을공무원4단지 # 1994
-    [2645, 40]  # 상록우성 #1995
-]
-watch_list_7 = [  # 동탄역 동쪽
-    [110527, 40],  # 동탄역린스트라우스(주상복합) # 2018
-    [106031, 40],  # 동탄역시범한화꿈에그린프레스티지 # 2015
-    [106558, 40],  # 동탄역시범더샵센트럴시티 # 2015
-    [106155, 40],  # 동탄역시범한화꿈에그린프레스티지 # 2015
-    [106031, 40],  # 동탄역시범대원칸타빌 # 2015
-    [111024, 40],  # 동탄역시범금강펜테리움센트럴파크III # 2017
-    [107542, 40],  # 동탄역시범예미지 # 2015
-    [106154, 40],  # 동탄역시범리슈빌 # 2015
-    [105405, 40],  # 동탄역시범우남퍼스트빌 # 2015
-    [122159, 40],  # 동탄역예미지시그너스(주상복합) # 2021
-    [110026, 40],  # 동탄역센트럴예미지 # 2017
-    [105414, 40],  # 동탄센트럴자이 # 2015
-    [119652, 40]  # 동탄역롯데캐슬(주상복합) # 2021
-]
-watch_list_8 = [  # 동탄역 서쪽
-    [109931, 40],  # 반도유보라아이비파크5 # 2017
-    [109932, 40],  # 반도유보라아이비파크6 # 2017
-    [111352, 40],  # 반도유보라아이비파크8 # 2018
-    [111351, 40],  # 반도유보라아이비파크7 # 2019
-    [110140, 40],  # 동탄역푸르지오 # 2017
-    [128133, 40],  # 동탄역유림노르웨이숲(주상복합) # 2021
-    [116776, 40],  # 동원로얄듀크비스타3차(주상복합) # 2020
-    [14371, 40],  # 동탄역신미주 # 2005
-    [109947, 40]  # 동탄역에일린의뜰 # 2016
-]
+# watch_list_1 = [
+#     [111059, 40],  # 광교지웰홈스
+#     [109829, 43],  # 광교_힐스테이트광교
+#     [103994, 45],  # 에듀하임
+#     [114777, 50]  # 힐스테이트광교중앙역
+# ]
+# watch_list_2 = [
+#     [102530, 40],  # 수지_푸르지오월드마크(주상복합)
+#     [10244, 40],   # 정자_두산위브파빌리온
+#     [9896, 40]   # 구성_성호샤인힐즈
+# ]
+# watch_list_3 = [
+#     [114593, 40],  # 광교_sk뷰레이크타워
+#     [111001, 40],  # 광교_중흥S-클래스
+#     [116449, 40]  # 광교_포레나광교
+# ]
+# watch_list_4 = [
+#     [120682, 40],  # 광교_효성해링턴타워
+#     [120134, 40],  # 광교_효성해링턴타워레이크
+#     [107999, 43],  # 광교_더샵레이크파크
+#     [105468, 40]  # 광교_힐스테이트레이크
+# ]
+# watch_list_5 = [  # southern 광교
+#     [120316, 40],  # 광교(남)_더샵광교레이크시티
+#     [110644, 40],  # 광교(남)_더샵
+#     [110643, 40]  # 광교(남)_아이파크
+# ]
+# watch_list_6 = [  # 정자동
+#     [3014, 40],  # 느티마을공무원3단지 # 1994
+#     [2618, 40],  # 느티마을공무원4단지 # 1994
+#     [2645, 40]  # 상록우성 #1995
+# ]
+# watch_list_7 = [  # 동탄역 동쪽
+#     [110527, 40],  # 동탄역린스트라우스(주상복합) # 2018
+#     [106031, 40],  # 동탄역시범한화꿈에그린프레스티지 # 2015
+#     [106558, 40],  # 동탄역시범더샵센트럴시티 # 2015
+#     [106155, 40],  # 동탄역시범한화꿈에그린프레스티지 # 2015
+#     [106031, 40],  # 동탄역시범대원칸타빌 # 2015
+#     [111024, 40],  # 동탄역시범금강펜테리움센트럴파크III # 2017
+#     [107542, 40],  # 동탄역시범예미지 # 2015
+#     [106154, 40],  # 동탄역시범리슈빌 # 2015
+#     [105405, 40],  # 동탄역시범우남퍼스트빌 # 2015
+#     [122159, 40],  # 동탄역예미지시그너스(주상복합) # 2021
+#     [110026, 40],  # 동탄역센트럴예미지 # 2017
+#     [105414, 40],  # 동탄센트럴자이 # 2015
+#     [119652, 40]  # 동탄역롯데캐슬(주상복합) # 2021
+# ]
+# watch_list_8 = [  # 동탄역 서쪽
+#     [109931, 40],  # 반도유보라아이비파크5 # 2017
+#     [109932, 40],  # 반도유보라아이비파크6 # 2017
+#     [111352, 40],  # 반도유보라아이비파크8 # 2018
+#     [111351, 40],  # 반도유보라아이비파크7 # 2019
+#     [110140, 40],  # 동탄역푸르지오 # 2017
+#     [128133, 40],  # 동탄역유림노르웨이숲(주상복합) # 2021
+#     [116776, 40],  # 동원로얄듀크비스타3차(주상복합) # 2020
+#     [14371, 40],  # 동탄역신미주 # 2005
+#     [109947, 40]  # 동탄역에일린의뜰 # 2016
+# ]
 
 ### watch list search ###
 def search_min(x):
@@ -229,11 +186,12 @@ def search_min_test(watch_list, prc_max):
             list_min_result.append(i)
     x = ''
     for i in range(len(list_min_result)):
-        x += list_min_result[i][0] + " " + list_min_result[i][1] + " " + list_min_result[i][2] + "\n"
+        x += list_min_result[i][0] + " | " + list_min_result[i][1] + " | " + list_min_result[i][2] + "\n"
     if len(list_min_result) > 0:
         print(x)
-        sendMsgToMe(x)
-        sendMsgToHer(x)
+        sendTelegramMsg("1726140050", x) # 1726140050 # 2022415076
+        sendTelegramMsg("2022415076", x) 
+
 
 search_min_test(watch_list_8, 35000)
 #sendMsgToHer('testing')

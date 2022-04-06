@@ -1,14 +1,34 @@
-import requests
-import json
+import random
+import time
 
-url = "https://kapi.kakao.com/v1/api/talk/friends"
+interval = 15
 
-KAKAO_TOKEN = 'YmJbNK5eu1fEl8KHpPBTrKwocvHgrL9AaqkQ1wo9dJkAAAF_-h7YOA'
+print(random.randrange(10))
 
-header = {"Authorization": "Bearer " + KAKAO_TOKEN}
+for i in range(8):
+    x = random.uniform(2, 6)
+    time.sleep(x)
+    print(i, f"delayed for: {x} seconds")
 
-r = requests.get(url, headers=header).text
-print(r)
+# def myPeriodicFunction():
+#     print "This loops on a timer every %d seconds" % interval
+
+# def startTimer():
+#     threading.Timer(interval, startTimer).start()
+#     myPeriodicFunction()
+
+
+# import requests
+# import json
+
+# url = "https://kapi.kakao.com/v1/api/talk/friends"
+
+# KAKAO_TOKEN = 'YmJbNK5eu1fEl8KHpPBTrKwocvHgrL9AaqkQ1wo9dJkAAAF_-h7YOA'
+
+# header = {"Authorization": "Bearer " + KAKAO_TOKEN}
+
+# r = requests.get(url, headers=header).text
+# print(r)
 
 # list = [['84.7', '4억 5,000', '광교지웰홈스'], ['84.8', '5억      ', '광교지웰홈스'], ['53.7', '4억 8,000', '힐스테이트광교'], ['77.5', '8억      ', '힐스테이트광교'], ['46.9', '3억 7,000', '에듀하임1309'], ['62.9', '4억 3,000', '에듀하임1309'], ['53.3', '4억      ', '힐스테이트광교중앙역'], ['58.6', '4억 7,000', '힐스테이트광교중앙역'], ['59.1', '4억 6,000', '힐스테이트광교중앙역'], ['59.2', '5억      ', '힐스테이트광교중앙역'], ['59.3', '4억 1,700', '힐스테이트광교중앙역'], ['59.4', '4억      ', '힐스테이트광교중앙역'], ['83.4', '7억 3,000', '힐스테이트광교중앙역']]
 # list2 = []
