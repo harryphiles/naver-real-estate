@@ -1,9 +1,13 @@
 # v0.5
 
 from operator import itemgetter
+from re import S
 import requests
 import json
 import logging
+import random
+import time
+import sys
 from telegram import sendTelegramMsg
 from watch_list import *
 
@@ -12,6 +16,8 @@ url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 list = []
 list_min = []
 list_min_result = []
+list_test_add = [] # adding up lists made from get_info() fn
+list_test_target = []
 
 ### core functions
 def get_info(tradTpCd, spc_min, spc_max, hscpNo):
@@ -37,7 +43,8 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
         r = requests.get(url, params=param, headers=header)
         if r.status_code != 200:
             logging.error('status code: %d' % r.status_code)
-            break
+            sendTelegramMsg("1726140050", "Error!")
+            sys.exit(0)
 
         load_json = json.loads(r.text)
         result = load_json['result']
@@ -65,9 +72,31 @@ def get_info(tradTpCd, spc_min, spc_max, hscpNo):
                     flrInfo = '{:>4}'.format(item['flrInfo'])
                 x = [atclNm, spc2, prc, prc_min, flrInfo, desc]
                 list.append(x)     
+                # list_test_add.append(x)     
 
         if result['moreDataYn'] == 'N':
             break
+
+def add_list():
+    list_test_add.extend(list)
+
+def sort_list(prc_max):
+    s = sorted(list_test_add, key=itemgetter(3))
+    for i in s:
+        try:
+            if i[1].find("억") == 1:
+                prc = int('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+            else:
+                prc = int('{:.2}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+        except:
+            if i[1].find("억") == 1:
+                prc = int('{:.1}0000  '.format(i[1].split()[0]))
+            else:
+                prc = int('{:.2}0000  '.format(i[1].split()[0]))
+        if prc <= prc_max:
+            list_test_target.append(i)
+
+
 
 def get_min(): #--> new function to get min
     s = sorted(list, key=itemgetter(3))
@@ -119,9 +148,15 @@ def search_min_test(watch_list, prc_max):
         get_list_min()
     for i in list_min:
         try:
-            prc = int('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+            if i[1].find("억") == 1:
+                prc = int('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+            else:
+                prc = int('{:.2}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
         except:
-            prc = int('{:.1}0000'.format(i[1].split()[0]))
+            if i[1].find("억") == 1:
+                prc = int('{:.1}0000'.format(i[1].split()[0]))
+            else:
+                prc = int('{:.2}0000'.format(i[1].split()[0]))
         if prc <= prc_max:
             list_min_result.append(i)
     x = ''
@@ -132,5 +167,69 @@ def search_min_test(watch_list, prc_max):
         sendTelegramMsg("1726140050", x) # 1726140050 # 2022415076
         #sendTelegramMsg("2022415076", x) 
 
+# for i in range(1, 3):
+#     str = "watch_list_{}".format(i)
+#     print(str[0])
 
-search_min_test(watch_list_8, 35000)
+def alert_system(prc_max):
+    list_test_add.clear()
+    list_test_target.clear()
+
+    # for i in range(int(len(watch_list))):
+    for i in range(0, 10):
+        rand_num = random.uniform(1, 3)
+        time.sleep(rand_num)
+        print(watch_list[i])
+        get_info('B1', watch_list[i][1], 85, watch_list[i][0])
+        add_list()
+
+    time.sleep(20)
+
+    for i in range(10, 20):
+        rand_num = random.uniform(1, 3)
+        time.sleep(rand_num)
+        print(watch_list[i])
+        get_info('B1', watch_list[i][1], 85, watch_list[i][0])
+        add_list()
+
+    time.sleep(15)
+
+    for i in range(20, 30):
+        rand_num = random.uniform(1, 3)
+        time.sleep(rand_num)
+        print(watch_list[i])
+        get_info('B1', watch_list[i][1], 85, watch_list[i][0])
+        add_list()
+
+    time.sleep(20)
+
+    for i in range(30, 40):
+        rand_num = random.uniform(1, 3)
+        time.sleep(rand_num)
+        print(watch_list[i])
+        get_info('B1', watch_list[i][1], 85, watch_list[i][0])
+        add_list()
+
+    time.sleep(15)
+
+    for i in range(40, 42):
+        rand_num = random.uniform(1, 3)
+        time.sleep(rand_num)
+        print(watch_list[i])
+        get_info('B1', watch_list[i][1], 85, watch_list[i][0])
+        add_list()
+
+    sort_list(prc_max)
+
+    x = ''
+    if len(list_test_target) > 0:
+        for i in range(len(list_test_target)):
+            x += list_test_target[i][0] + " | " + list_test_target[i][1] + " | " + list_test_target[i][3] + "\n"
+        # print(x)
+        sendTelegramMsg("1726140050", x)
+    else:
+        sendTelegramMsg("1726140050", "No result")
+
+# print(list_test_target)
+
+search_min_test(watch_list_3, 110000)
