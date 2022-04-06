@@ -17,6 +17,7 @@ list = []
 list_min = []
 list_min_result = []
 list_test_add = [] # adding up lists made from get_info() fn
+list_test_unique = []
 list_test_target = []
 
 ### core functions
@@ -81,22 +82,21 @@ def add_list():
     list_test_add.extend(list)
 
 def sort_list(prc_max):
+    list_test_target.clear()
     s = sorted(list_test_add, key=itemgetter(3))
     for i in s:
         try:
-            if i[1].find("억") == 1:
-                prc = int('{:.1}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+            if i[3].find("억") == 1:
+                prc = int('{:.1}{:.1}{}'.format(i[3].split()[0], i[3].split()[1], i[3].split(",")[1]))
             else:
-                prc = int('{:.2}{:.1}{}'.format(i[1].split()[0], i[1].split()[1], i[1].split(",")[1]))
+                prc = int('{:.2}{:.1}{}'.format(i[3].split()[0], i[3].split()[1], i[3].split(",")[1]))
         except:
-            if i[1].find("억") == 1:
-                prc = int('{:.1}0000  '.format(i[1].split()[0]))
+            if i[3].find("억") == 1:
+                prc = int('{:.1}0000'.format(i[3].split()[0]))
             else:
-                prc = int('{:.2}0000  '.format(i[1].split()[0]))
+                prc = int('{:.2}0000'.format(i[3].split()[0]))
         if prc <= prc_max:
             list_test_target.append(i)
-
-
 
 def get_min(): #--> new function to get min
     s = sorted(list, key=itemgetter(3))
@@ -106,6 +106,15 @@ def get_min(): #--> new function to get min
     spc_s = sorted(set(spc))
     for i in spc_s:
         print(i, s[spc.index(i)][3])
+
+def get_unique_test(): #--> new function to get min
+    list = list_test_add
+    setter = []
+    for i in list:
+        setter.append(hash(i[0])+hash(i[1]))
+    sorted_setter = set(setter)
+    for i in sorted_setter:
+        list_test_unique.append([list[setter.index(i)][0], list[setter.index(i)][1], list[setter.index(i)][3]])
 
 def get_list_min(): #--> new function to get min
     #list_min.clear()
@@ -142,7 +151,7 @@ def search_individual(x):
     get_info('B1', 40, 130, x)
     get_list()
 
-def search_min_test(watch_list, prc_max):
+def search_min_test(watch_list, prc_max): #-> testing purposes
     for i in watch_list:                         # change number to show results of different lists
         get_info('B1', i[1], 85, i[0])  # 기본
         get_list_min()
@@ -165,15 +174,11 @@ def search_min_test(watch_list, prc_max):
     if len(list_min_result) > 0:
         print(x)
         sendTelegramMsg("1726140050", x) # 1726140050 # 2022415076
-        #sendTelegramMsg("2022415076", x) 
 
-# for i in range(1, 3):
-#     str = "watch_list_{}".format(i)
-#     print(str[0])
-
-def alert_system(prc_max):
+def get_data(): #-> to list_test_add
     list_test_add.clear()
-    list_test_target.clear()
+
+    print(time.strftime("%H:%M:%S"))
 
     # for i in range(int(len(watch_list))):
     for i in range(0, 10):
@@ -183,7 +188,7 @@ def alert_system(prc_max):
         get_info('B1', watch_list[i][1], 85, watch_list[i][0])
         add_list()
 
-    time.sleep(20)
+    time.sleep(random.uniform(10, 12))
 
     for i in range(10, 20):
         rand_num = random.uniform(1, 3)
@@ -192,7 +197,7 @@ def alert_system(prc_max):
         get_info('B1', watch_list[i][1], 85, watch_list[i][0])
         add_list()
 
-    time.sleep(15)
+    time.sleep(random.uniform(13, 15))
 
     for i in range(20, 30):
         rand_num = random.uniform(1, 3)
@@ -201,7 +206,7 @@ def alert_system(prc_max):
         get_info('B1', watch_list[i][1], 85, watch_list[i][0])
         add_list()
 
-    time.sleep(20)
+    time.sleep(random.uniform(16, 18))
 
     for i in range(30, 40):
         rand_num = random.uniform(1, 3)
@@ -210,7 +215,7 @@ def alert_system(prc_max):
         get_info('B1', watch_list[i][1], 85, watch_list[i][0])
         add_list()
 
-    time.sleep(15)
+    time.sleep(random.uniform(19, 21))
 
     for i in range(40, 42):
         rand_num = random.uniform(1, 3)
@@ -218,18 +223,34 @@ def alert_system(prc_max):
         print(watch_list[i])
         get_info('B1', watch_list[i][1], 85, watch_list[i][0])
         add_list()
+    
+    print(time.strftime("%H:%M:%S"))
 
-    sort_list(prc_max)
-
+def send_msg_with_list():
     x = ''
     if len(list_test_target) > 0:
         for i in range(len(list_test_target)):
-            x += list_test_target[i][0] + " | " + list_test_target[i][1] + " | " + list_test_target[i][3] + "\n"
+            x += list_test_target[i][1] + " | " + list_test_target[i][3] + " | " + list_test_target[i][0] + "\n"
         # print(x)
         sendTelegramMsg("1726140050", x)
+        sendTelegramMsg("2022415076", x)
     else:
         sendTelegramMsg("1726140050", "No result")
 
-# print(list_test_target)
+def alert(prc_max):
+    get_data()
+    sort_list(prc_max)
+    send_msg_with_list()
 
-search_min_test(watch_list_3, 110000)
+# get_data()
+# print(list_test_add)
+# sort_list(40000)
+# print('\n')
+# print(list_test_target)
+# for i in list_test_target:
+#     print(i)
+
+
+alert(35000)
+
+# search_min_test(watch_list_3, 70000)
