@@ -97,8 +97,6 @@ def get_list(): #--> new function to get list
         else:
             print('{} | {} | {} |           | {}'.format(i[1], i[2], i[4], i[5]))
 
-### watch list
-
 ### watch list search ###
 def search_min(x):
     for i in x:                         # change number to show results of different lists
