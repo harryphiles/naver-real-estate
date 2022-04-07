@@ -210,7 +210,7 @@ def send_msg_with_list():
             x += list_test_target[i][1] + " | " + list_test_target[i][3] + " | " + list_test_target[i][0] + "\n"
         # print(x)
         sendTelegramMsg("1726140050", x)
-        #sendTelegramMsg("2022415076", x)
+        sendTelegramMsg("2022415076", x)
     else:
         sendTelegramMsg("1726140050", "No result")
 
