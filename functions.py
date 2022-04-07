@@ -224,7 +224,7 @@ def alert(watch_list, prc_max):
 
 
 
-search_min(watch_list_a)
+# search_min(watch_list_a)
 # search_list(watch_list_1)
 # search_individual()
 # alert(watch_list_a, 35000)
