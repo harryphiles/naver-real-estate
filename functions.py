@@ -94,9 +94,9 @@ def sort_list(prc_max):
                 prc = int('{:.2}{:.1}{}'.format(i[3].split()[0], i[3].split()[1], i[3].split(",")[1]))
         except:
             if i[3].find("억") == 1:
-                prc = int('{:.1}0000'.format(i[3].split()[0]))
+                prc = int('{:.1}0000  '.format(i[3].split()[0]))
             else:
-                prc = int('{:.2}0000'.format(i[3].split()[0]))
+                prc = int('{:.2}0000  '.format(i[3].split()[0]))
         if prc <= prc_max:
             list_test_target.append(i)
 
