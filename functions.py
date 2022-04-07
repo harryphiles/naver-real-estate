@@ -280,7 +280,7 @@ def get_data_new(watch_list): #-> to list_test_add
         if 20 <= i < 30:
             get_info_new('B1', watch_list[i][1], 85, watch_list[i][0])
 
-def data_processing(list):
+def data_processing(list, prc_max):
     ## only get values below condition
     list1 = []
     for i in list:
@@ -296,7 +296,7 @@ def data_processing(list):
                     prc = int('{:.1}0000'.format(j[3].split()[0]))
                 else:
                     prc = int('{:.2}0000'.format(j[3].split()[0]))
-            if prc <= 50000:
+            if prc <= prc_max:
                 list_temp.append(j)
         list1.append(list_temp)
 
@@ -349,7 +349,7 @@ def send_msg_with_list_new():
 ### combined ###
 def alert(watch_list, prc_max):
     get_data_new(watch_list)
-    data_processing(list_add_new)
+    data_processing(list_add_new, prc_max)
     send_msg_with_list_new()
 # def alert(watch_list, prc_max):
 #     get_data(watch_list)
