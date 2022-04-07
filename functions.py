@@ -347,14 +347,14 @@ def send_msg_with_list_new():
         sendTelegramMsg("1726140050", "No result")
 
 ### combined ###
-def alert(watch_list, prc_max):
-    get_data_new(watch_list)
-    data_processing(list_add_new, prc_max)
-    send_msg_with_list_new()
 # def alert(watch_list, prc_max):
-#     get_data(watch_list)
-#     sort_list(prc_max)
-#     send_msg_with_list()
+#     get_data_new(watch_list)
+#     data_processing(list_add_new, prc_max)
+#     send_msg_with_list_new()
+def alert(watch_list, prc_max):
+    get_data(watch_list)
+    sort_list(prc_max)
+    send_msg_with_list()
 
 
 
