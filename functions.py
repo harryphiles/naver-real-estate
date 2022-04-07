@@ -221,7 +221,10 @@ def alert(watch_list, prc_max):
     send_msg_with_list()
 
 
-# search_min(watch_list_8)
+
+
+
+search_min(watch_list_a)
 # search_list(watch_list_1)
 # search_individual()
 # alert(watch_list_a, 35000)
