@@ -2,8 +2,10 @@
 
 from functions import *
 
-alert(watch_list_a, 34000)
+prc_max = 32000
+
+alert(watch_list_a, prc_max)
 
 time.sleep(random.uniform(61, 120))
 
-alert(watch_list_b, 34000)
+alert(watch_list_b, prc_max)
