@@ -135,14 +135,16 @@ def data_processing(list_add_new, prc_max):
             list_temp2.append(s[list_temp.index(k)])
         list_result.append(list_temp2)
 
-def send_msg_with_list_new():
+def send_msg_with_list_new(prc_max):
+    print(list_result)
     x = ''
     if list_result != []:
+        x += f"Price(max): {prc_max} \n"
         for i in list_result:
             for j in i:
-                x += j[1] + " | " + j[3] + " | " + j[0] + "\n"
+                x += f"{j[1]} | {j[3]} | {j[0]} \n"
         sendTelegramMsg("1726140050", x)
-        sendTelegramMsg("2022415076", x)
+        # sendTelegramMsg("2022415076", x)
     # else:
     #     sendTelegramMsg("1726140050", "No result")
 
@@ -152,4 +154,4 @@ def send_msg_with_list_new():
 def alert(watch_list, prc_max):
     get_data_new(watch_list)
     data_processing(list_add_new, prc_max)
-    send_msg_with_list_new()
+    send_msg_with_list_new(prc_max)
