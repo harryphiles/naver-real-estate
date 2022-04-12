@@ -1,3 +1,4 @@
+from http.client import CONTINUE
 from operator import itemgetter
 from re import T
 import requests
@@ -6,6 +7,7 @@ import random
 import time
 import sys
 from watch_list import *
+import pickle
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -25,108 +27,88 @@ list_add_new = [[['동탄역린스트라우스(주상복합)', '75.0', '4억 8,0
 
 prc_max = 35000
 
-x = ''
-if list_add_new != []:
-    x += f"Price(max): {prc_max} \n"
-    for i in list_add_new:
-        for j in i:
-            x += f"{j[1]} | {j[3]} | {j[0]} \n"
-
-print(x)
-
-# list_result.clear()
-# ## only get values below condition
-# list1 = []
-# for i in list_add_new:
-#     list_temp = []
-#     for j in i:
-#         try:
-#             if j[3].index("억") == 1:
-#                 prc = int('{:.1}{:.1}{}'.format(j[3].split()[0], j[3].split()[1], j[3].split(",")[1]))
-#             else:
-#                 prc = int('{:.2}{:.1}{}'.format(j[3].split()[0], j[3].split()[1], j[3].split(",")[1]))
-#         except:
-#             if j[3].index("억") == 1:
-#                 prc = int('{:.1}0000'.format(j[3].split()[0]))
-#             else:
-#                 prc = int('{:.2}0000'.format(j[3].split()[0]))
-#         if prc <= 35000:
-#             list_temp.append(j)
-#     if list_temp != []:
-#         list1.append(list_temp)
-
-# ## sort by minimum prc
-# list2 = []
-# for i in list1:
-#     s = sorted(i, key=itemgetter(3))
-#     list_temp = []
-#     for j in s:
-#         list_temp.append(j)
-#     list2.append(list_temp)
-
-# ### minimum values for each spc for each complex
-# # list3 = []
-# # for i in list2:
-#     s = sorted(i, key=itemgetter(1))
-#     list_temp = []
-#     for j in s:
-#         list_temp.append(j[1])
-#     set_s = sorted(set(list_temp))
-#     list_temp2 = []
-#     for k in set_s:
-#         list_temp2.append(s[list_temp.index(k)])
-#     list_result.append(list_temp2)
-
-# def data_processing(list_add_new, prc_max):
-#     list_result.clear()
-#     ## only get values below condition
-#     list1 = []
-#     for i in list_add_new:
-#         list_temp = []
-#         for j in i:
-#             try:
-#                 if j[3].find("억") == 1:
-#                     prc = int('{:.1}{:.1}{}'.format(j[3].split()[0], j[3].split()[1], j[3].split(",")[1]))
-#                 else:
-#                     prc = int('{:.2}{:.1}{}'.format(j[3].split()[0], j[3].split()[1], j[3].split(",")[1]))
-#             except:
-#                 if j[3].find("억") == 1:
-#                     prc = int('{:.1}0000'.format(j[3].split()[0]))
-#                 else:
-#                     prc = int('{:.2}0000'.format(j[3].split()[0]))
-#             if prc <= prc_max:
-#                 list_temp.append(j)
-#         if list_temp != []:
-#             list1.append(list_temp)
-
-#     ## sort by minimum prc
-#     list2 = []
-#     for i in list1:
-#         s = sorted(i, key=itemgetter(3))
-#         list_temp = []
-#         for j in s:
-#             list_temp.append(j)
-#         list2.append(list_temp)
-
-#     ### minimum values for each spc for each complex
-#     # list3 = []
-#     for i in list2:
-#         s = sorted(i, key=itemgetter(1))
-#         list_temp = []
-#         for j in s:
-#             list_temp.append(j[1])
-#         set_s = sorted(set(list_temp))
-#         list_temp2 = []
-#         for k in set_s:
-#             list_temp2.append(s[list_temp.index(k)])
-#         list_result.append(list_temp2)
-
-# data_processing(list_add_new, 35000)
-# print(list_result)
-
 # x = ''
-# if len(list_result) > 0:
-#     for i in list_result:
+# if list_add_new != []:
+#     x += f"Price(max): {prc_max} \n"
+#     for i in list_add_new:
 #         for j in i:
-#             x += j[1] + " | " + j[3] + " | " + j[0] + "\n"
-#     print(x)
+#             x += f"{j[1]} | {j[3]} | {j[0]} \n"
+
+# print(x)
+
+def data_processing(list_add_new, prc_max): #-> list_add_new is processed and produce list_result
+    list_result.clear()
+    ## only get values below condition
+    list1 = []
+    for i in list_add_new:
+        list_temp = []
+        for j in i:
+            try:
+                if j[3].find("억") == 1:
+                    prc = int('{:.1}{:.1}{}'.format(j[3].split()[0], j[3].split()[1], j[3].split(",")[1]))
+                else:
+                    prc = int('{:.2}{:.1}{}'.format(j[3].split()[0], j[3].split()[1], j[3].split(",")[1]))
+            except:
+                if j[3].find("억") == 1:
+                    prc = int('{:.1}0000'.format(j[3].split()[0]))
+                else:
+                    prc = int('{:.2}0000'.format(j[3].split()[0]))
+            if prc <= prc_max:
+                list_temp.append(j)
+        if list_temp != []:
+            list1.append(list_temp)
+
+    ## sort by minimum prc
+    list2 = []
+    for i in list1:
+        s = sorted(i, key=itemgetter(3))
+        list_temp = []
+        for j in s:
+            list_temp.append(j)
+        list2.append(list_temp)
+
+    ### minimum values for each spc for each complex
+    # list3 = []
+    for i in list2:
+        s = sorted(i, key=itemgetter(1))
+        list_temp = []
+        for j in s:
+            list_temp.append(j[1])
+        set_s = sorted(set(list_temp))
+        list_temp2 = []
+        for k in set_s:
+            list_temp2.append(s[list_temp.index(k)])
+        list_result.append(list_temp2)
+
+
+# data_processing(list_add_new, 30000)
+
+# with open('data.txt', 'a') as wr:
+#     wr.write(list_result)
+#     wr.close
+
+list_result = [[['동탄역반도유보라아이비파크8.0', '56.2', '3억 2,000', '3억 2,000', '고/42', '풀옵션 투룸, 뷰 좋고, 카림상권, 여울공원 용서고속도로이용']], [['동탄역동원로얄듀크비스타3차', '47.8', '3억      ', '3억      ', '22/32', '투 룸, 귀한 전세,고층 남서향 밝은 집,공원 뷰']]]
+# list_result = [[['동탄역동원로얄듀크비스타3차', '47.8', '3억      ', '3억      ', '22/32', '투 룸, 귀한 전세,고층 남서향 밝은 집,공원 뷰']]]
+
+print(list_result)
+
+# with open('data', 'wb') as fp:
+#     pickle.dump(list_result, fp)
+
+##
+def compare_data(data):
+    with open (data, 'rb') as fp:
+        former = pickle.load(fp)
+        if former == list_result:
+            sys.exit()
+        else:
+            with open (data, 'wb') as fp:
+                pickle.dump(list_result, fp)
+
+compare_data('data_1')
+
+# data processed -> list_result produced
+# compare list_result to comparison
+# if same
+# comp delete and rewrite comp
+# else do nothing

@@ -1,4 +1,4 @@
-# v0.7
+# v0.8
 
 from operator import itemgetter
 import requests
@@ -9,6 +9,7 @@ import time
 import sys
 from telegram import sendTelegramMsg
 from watch_list import *
+import pickle
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -91,7 +92,7 @@ def get_data_new(watch_list): #-> to list_test_add
         if 20 <= i < 30:
             get_info_new('B1', watch_list[i][1], 85, watch_list[i][0])
 
-def data_processing(list_add_new, prc_max):
+def data_processing(list_add_new, prc_max): #-> list_add_new is processed and produce list_result
     list_result.clear()
     ## only get values below condition
     list1 = []
@@ -135,6 +136,15 @@ def data_processing(list_add_new, prc_max):
             list_temp2.append(s[list_temp.index(k)])
         list_result.append(list_temp2)
 
+def compare_data(data): #-> compare data (check for differences)
+    with open (data, 'rb') as fp:
+        former = pickle.load(fp)
+        if former == list_result:
+            sys.exit()
+        else:
+            with open (data, 'wb') as fp:
+                pickle.dump(list_result, fp)
+
 def send_msg_with_list_new(prc_max):
     print(list_result)
     x = ''
@@ -144,14 +154,15 @@ def send_msg_with_list_new(prc_max):
             for j in i:
                 x += f"{j[1]} | {j[3]} | {j[0]} \n"
         sendTelegramMsg("1726140050", x)
-        sendTelegramMsg("2022415076", x)
+        # sendTelegramMsg("2022415076", x)
     # else:
     #     sendTelegramMsg("1726140050", "No result")
 
 ################
 ### combined ###
 ################
-def alert(watch_list, prc_max):
+def alert(watch_list, prc_max, data):
     get_data_new(watch_list)
     data_processing(list_add_new, prc_max)
+    compare_data(data)
     send_msg_with_list_new(prc_max)
