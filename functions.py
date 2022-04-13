@@ -154,7 +154,7 @@ def send_msg_with_list_new(prc_max):
             for j in i:
                 x += f"{j[1]} | {j[3]} | {j[0]} \n"
         sendTelegramMsg("1726140050", x)
-        # sendTelegramMsg("2022415076", x)
+        sendTelegramMsg("2022415076", x)
     # else:
     #     sendTelegramMsg("1726140050", "No result")
 
