@@ -8,6 +8,7 @@ import time
 import sys
 from watch_list import *
 import pickle
+from os import path
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -87,8 +88,8 @@ def data_processing(list_add_new, prc_max): #-> list_add_new is processed and pr
 #     wr.write(list_result)
 #     wr.close
 
-list_result = [[['동탄역반도유보라아이비파크8.0', '56.2', '3억 2,000', '3억 2,000', '고/42', '풀옵션 투룸, 뷰 좋고, 카림상권, 여울공원 용서고속도로이용']], [['동탄역동원로얄듀크비스타3차', '47.8', '3억      ', '3억      ', '22/32', '투 룸, 귀한 전세,고층 남서향 밝은 집,공원 뷰']]]
-# list_result = [[['동탄역동원로얄듀크비스타3차', '47.8', '3억      ', '3억      ', '22/32', '투 룸, 귀한 전세,고층 남서향 밝은 집,공원 뷰']]]
+# list_result = [[['동탄역반도유보라아이비파크8.0', '56.2', '3억 2,000', '3억 2,000', '고/42', '풀옵션 투룸, 뷰 좋고, 카림상권, 여울공원 용서고속도로이용']], [['동탄역동원로얄듀크비스타3차', '47.8', '3억      ', '3억      ', '22/32', '투 룸, 귀한 전세,고층 남서향 밝은 집,공원 뷰']]]
+list_result = [[['동탄역동원로얄듀크비스타3차', '47.8', '3억      ', '3억      ', '22/32', '투 룸, 귀한 전세,고층 남서향 밝은 집,공원 뷰']]]
 
 print(list_result)
 
@@ -96,16 +97,23 @@ print(list_result)
 #     pickle.dump(list_result, fp)
 
 ##
-def compare_data(data):
-    with open (data, 'rb') as fp:
-        former = pickle.load(fp)
-        if former == list_result:
-            sys.exit()
-        else:
-            with open (data, 'wb') as fp:
-                pickle.dump(list_result, fp)
+def compare_data(data): #-> compare data (check for differences)
+    if path.isfile(data):
+        with open (data, 'rb') as fp:
+            former = pickle.load(fp)
+            if former == list_result:
+                print("it's same.")
+                sys.exit()
+            else:
+                with open (data, 'wb') as fp:
+                    pickle.dump(list_result, fp)
+                    print("data renewed")
+    else:
+        with open (data, 'wb') as fp:
+            pickle.dump(list_result, fp)
+            print(f"{data} is created with new data.")
 
-compare_data('data_1')
+compare_data('data_3')
 
 # data processed -> list_result produced
 # compare list_result to comparison

@@ -10,6 +10,7 @@ import sys
 from telegram import sendTelegramMsg
 from watch_list import *
 import pickle
+from os import path
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -144,6 +145,19 @@ def compare_data(data): #-> compare data (check for differences)
         else:
             with open (data, 'wb') as fp:
                 pickle.dump(list_result, fp)
+
+def compare_data(data): #-> compare data (check for differences)
+    if path.isfile(data):
+        with open (data, 'rb') as fp:
+            former = pickle.load(fp)
+            if former == list_result:
+                sys.exit()
+            else:
+                with open (data, 'wb') as fp:
+                    pickle.dump(list_result, fp)
+    else:
+        with open (data, 'wb') as fp:
+            pickle.dump(list_result, fp)
 
 def send_msg_with_list_new(prc_max):
     print(list_result)
