@@ -1,5 +1,7 @@
 from functions import *
 
+time_check_and_delete()
+
 prc_max = 35000
 
 alert(watch_list_a, prc_max, 'data_1')

@@ -1,4 +1,4 @@
-# v0.8
+# v0.9
 
 from operator import itemgetter
 import requests
@@ -11,6 +11,8 @@ from telegram import sendTelegramMsg
 from watch_list import *
 import pickle
 from os import path
+from datetime import datetime, timedelta
+import os
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -159,9 +161,22 @@ def send_msg_with_list_new(prc_max):
             for j in i:
                 x += f"{j[1]} | {j[3]} | {j[0]} \n"
         sendTelegramMsg("1726140050", x)
-        # sendTelegramMsg("2022415076", x)
+        sendTelegramMsg("2022415076", x)
     # else:
     #     sendTelegramMsg("1726140050", "No result")
+
+### time check and delete data files
+def time_check_and_delete():
+    t_now = datetime.now()
+    t_range_max = t_now.replace(hour=10, minute=10, second=0, microsecond=0)
+    t_range_min = t_range_max - timedelta(minutes=10)
+
+    if t_range_min <= t_now <= t_range_max:
+        for i in range(1,4):
+            try:
+                os.remove(f'data_{i}')
+            except:
+                continue
 
 ################
 ### combined ###
