@@ -168,8 +168,8 @@ def send_msg_with_list_new(prc_max):
 ### time check and delete data files
 def time_check_and_delete():
     t_now = datetime.now()
-    t_range_max = t_now.replace(hour=10, minute=10, second=0, microsecond=0)
-    t_range_min = t_range_max - timedelta(minutes=10)
+    t_range_max = t_now.replace(hour=9, minute=10, second=0, microsecond=0)
+    t_range_min = t_range_max - timedelta(minutes=11)
 
     if t_range_min <= t_now <= t_range_max:
         for i in range(1,4):
