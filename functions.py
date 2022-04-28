@@ -1,4 +1,4 @@
-# v0.9
+# v1.0
 
 from operator import itemgetter
 import requests
@@ -13,6 +13,7 @@ import pickle
 from os import path
 from datetime import datetime, timedelta
 import os
+from config import *
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -47,7 +48,7 @@ def get_info_new(tradTpCd, spc_min, spc_max, hscpNo):
         r = requests.get(url, params=param, headers=header)
         if r.status_code != 200:
             logging.error('status code: %d' % r.status_code)
-            sendTelegramMsg("1726140050", "Error! {r.status_code}")
+            sendTelegramMsg(chatId1, "Error! {r.status_code}")
             sys.exit(0)
 
         load_json = json.loads(r.text)
@@ -160,8 +161,8 @@ def send_msg_with_list_new(prc_max):
         for i in list_result:
             for j in i:
                 x += f"{j[1]} | {j[3]} | {j[0]} \n"
-        sendTelegramMsg("1726140050", x)
-        sendTelegramMsg("2022415076", x)
+        sendTelegramMsg(chatId1, x)
+        sendTelegramMsg(chatId2, x)
     # else:
     #     sendTelegramMsg("1726140050", "No result")
 
