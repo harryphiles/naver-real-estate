@@ -91,7 +91,7 @@ def get_data_new(watch_list): #-> to list_test_add
         if 10 <= i < 20:
             get_info_new('B1', watch_list[i][1], 85, watch_list[i][0])
         if i == 20:
-            time.sleep(random.uniform(20, 30))
+            time.sleep(random.uniform(30, 45))
         if 20 <= i < 30:
             get_info_new('B1', watch_list[i][1], 85, watch_list[i][0])
 
