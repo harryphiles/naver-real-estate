@@ -164,7 +164,7 @@ def send_msg_with_list_new(prc_max):
         sendTelegramMsg(chatId1, x)
         sendTelegramMsg(chatId2, x)
     # else:
-    #     sendTelegramMsg("1726140050", "No result")
+    #     sendTelegramMsg(chatId1, "No result")
 
 ### time check and delete data files
 def time_check_and_delete():

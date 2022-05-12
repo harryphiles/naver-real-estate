@@ -17,7 +17,7 @@ def sendTelegramMsg(chat_id, input):
 def getTelegramMsg():
     url = "https://api.telegram.org/bot{}/getUpdates".format(telegramBotToken)
 
-    r = requests.get(url)
+    print(r.text)
 
     load_json = json.loads(r.text)
     data = load_json['result']
