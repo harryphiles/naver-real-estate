@@ -1,24 +1,25 @@
 # naver_real_estate
 
 ## Brief Description
-This repository is to get information from Naver Real Estate websites based on each indentification number of housing complexes.
+This repository is to get information from the Naver Real Estate website based on each indentification number of housing complexes.
 
 ## Background
-The information on the website is easy to use as it allows a map-based user interface. However, when you would want to check lots of data for multiple housing complexes, especially when you want to find a sudden, quickly-disappearing property--that is usually the cheapest one, the website does not offer much of convenience to users. There comes this set of codes to quickly sweep through the lists of complexes to find the ones meet user's condition.
+The information on the website is easy to use as it allows a map-based user interface. However, when you would want to check lots of data for multiple housing complexes, especially when you want to find a sudden, quickly-disappearing property--that is usually the cheapest one, the website does not offer much of convenience to users. There comes this set of codes to quickly sweep through the lists of complexes to find the ones that meet user's condition.
 
 ## Organization
 1. functions.py: contains most of the functions
-2. telegram.py: functions to send a message to your telegram bot
+2. telegram.py: functions to send a message to the IDs of your choice through your telegram bot
 3. watch_list.py: a collection (lists) of complexes that you would want to sweep through
 4. naver_re_scrape.py: the main file to run all the codes
 
 ## Preparation
 1. Create config.py within the folder
-    -> Set up a Telegram bot (there are plenty of tutorials for this.) Put tokens and chat id information in the folder.
+    -> Set up a Telegram bot (there are plenty of tutorials for this.) Put tokens and chat id information in config.py
 2. Complexes of your interest
     -> Put complex information in the watch_list.py; you can find this information in the development mode within your browser in the website
 3. Set options
     -> naver_re_scrape.py accepts conditions (parameters) of your taste
+
 Now Run the program.
 
 This is still a work in progress.
