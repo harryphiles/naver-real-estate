@@ -20,7 +20,7 @@ The information on the website is easy to use as it allows a map-based user inte
 3. Set options
     -> naver_re_scrape.py accepts conditions (parameters) of your taste
 
-Now Run the program.
+Now run the program.
 
 This is still a work in progress.
 
