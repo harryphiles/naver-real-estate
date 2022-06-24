@@ -1,7 +1,7 @@
 # naver_real_estate
 
 ## Brief Description
-This repository is to get information from the Naver Real Estate website based on each indentification number of housing complexes.
+This repository is to get information from the Naver Real Estate website based on each identification number of housing complexes.
 
 ## Background
 The information on the website is easy to use as it allows a map-based user interface. However, when you would want to check lots of data for multiple housing complexes, especially when you want to find a sudden, quickly-disappearing property--that is usually the cheapest one, the website does not offer much of convenience to users. There comes this set of codes to quickly sweep through the lists of complexes to find the ones that meet user's condition.
