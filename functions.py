@@ -20,9 +20,9 @@ url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 list_add_new = []
 list_result = []
 
-#####################################
-### new core functional functions ###
-#####################################
+##########################
+### new core functions ###
+##########################
 def get_info_new(tradTpCd, spc_min, spc_max, hscpNo):
     list = []
     param = {
@@ -79,7 +79,8 @@ def get_info_new(tradTpCd, spc_min, spc_max, hscpNo):
 
     list_add_new.append(list)
 
-def get_data_new(watch_list): #-> to list_test_add
+def get_data_new(watch_list):
+    """to list_test_add"""
     list_add_new.clear()
     for i in range(len(watch_list)):
         rand_num = random.uniform(0.5, 2)
@@ -96,7 +97,8 @@ def get_data_new(watch_list): #-> to list_test_add
         if 20 <= i < 30:
             get_info_new('B1', watch_list[i][1], 85, watch_list[i][0])
 
-def data_processing(list_add_new, prc_max): #-> list_add_new is processed and produce list_result
+def data_processing(list_add_new, prc_max):
+    """list_add_new is processed and produce list_result"""
     list_result.clear()
     ## only get values below condition
     list1 = []
@@ -140,7 +142,8 @@ def data_processing(list_add_new, prc_max): #-> list_add_new is processed and pr
             list_temp2.append(s[list_temp.index(k)])
         list_result.append(list_temp2)
 
-def compare_data(data): #-> compare data (check for differences)
+def compare_data(data):
+    """compare data (check for differences)"""
     if path.isfile(data):
         with open (data, 'rb') as fp:
             former = pickle.load(fp)
@@ -166,8 +169,8 @@ def send_msg_with_list_new(prc_max):
     # else:
     #     sendTelegramMsg(chatId1, "No result")
 
-### time check and delete data files
 def time_check_and_delete():
+    """time check and delete data files"""
     t_now = datetime.now()
     t_range_max = t_now.replace(hour=9, minute=10, second=0, microsecond=0)
     t_range_min = t_range_max - timedelta(minutes=11)
