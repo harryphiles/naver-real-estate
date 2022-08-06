@@ -10,7 +10,6 @@ import sys
 from telegram import sendTelegramMsg
 from watch_list import *
 import pickle
-from os import path
 from datetime import datetime, timedelta
 import os
 from config import telegramBotToken, chatId1, chatId2
