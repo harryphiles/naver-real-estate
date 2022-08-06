@@ -13,7 +13,7 @@ import pickle
 from os import path
 from datetime import datetime, timedelta
 import os
-from config import *
+from config import telegramBotToken, chatId1, chatId2
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
