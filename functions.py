@@ -10,8 +10,8 @@ import sys
 from telegram import sendTelegramMsg
 from watch_list import *
 import pickle
+from os import os, path
 from datetime import datetime, timedelta
-import os
 from config import telegramBotToken, chatId1, chatId2
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
