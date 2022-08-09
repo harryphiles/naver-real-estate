@@ -10,9 +10,10 @@ import sys
 from telegram import sendTelegramMsg
 from watch_list import *
 import pickle
-from os import os, path
+from os import path
+import os
 from datetime import datetime, timedelta
-from config import telegramBotToken, chatId1, chatId2
+from config import chatId1, chatId2
 
 url = 'https://m.land.naver.com/complex/getComplexArticleList' #base url
 
@@ -141,19 +142,21 @@ def data_processing(list_add_new, prc_max):
             list_temp2.append(s[list_temp.index(k)])
         list_result.append(list_temp2)
 
-def compare_data(data):
+def is_identical(data):
     """compare data (check for differences)"""
     if path.isfile(data):
         with open (data, 'rb') as fp:
             former = pickle.load(fp)
             if former == list_result:
-                sys.exit()
+                return True
             else:
                 with open (data, 'wb') as fp:
                     pickle.dump(list_result, fp)
+                return False
     else:
         with open (data, 'wb') as fp:
             pickle.dump(list_result, fp)
+    return False
 
 def send_msg_with_list_new(prc_max):
     print(list_result)
@@ -187,5 +190,5 @@ def time_check_and_delete():
 def alert(watch_list, prc_max, data):
     get_data_new(watch_list)
     data_processing(list_add_new, prc_max)
-    compare_data(data)
-    send_msg_with_list_new(prc_max)
+    if not is_identical(data):
+        send_msg_with_list_new(prc_max)
