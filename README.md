@@ -1,4 +1,4 @@
-# naver_real_estate
+# naver-real-estate
 
 ## Brief Description
 This repository is to get information from the Naver Real Estate website based on each identification number of housing complexes.
